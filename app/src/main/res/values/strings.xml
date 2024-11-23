@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Atlys Sahil</string>
     <string name="some_error_occurred">Some error occurred.</string>
+    <string name="search_movies">Search movies</string>
 </resources>

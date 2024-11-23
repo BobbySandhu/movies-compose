@@ -49,7 +49,7 @@ fun MovieListScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            SearchBar()
+            SearchBar(searchQuery = searchQuery)
         }
     ) { innerPadding ->
         Box(
