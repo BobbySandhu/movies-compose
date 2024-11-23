@@ -21,10 +21,6 @@ class MovieListScreenViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MovieListUiState())
     val uiState = _uiState.asStateFlow()
 
-    init {
-        getTrendingMovies()
-    }
-
     fun getTrendingMovies() {
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.update {

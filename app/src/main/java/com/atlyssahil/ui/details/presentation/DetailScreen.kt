@@ -2,7 +2,6 @@ package com.atlyssahil.ui.details.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,8 +26,11 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -63,8 +65,25 @@ fun DetailScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             CoverImage(imageUrl = Constants.IMAGE_BASE_URL + uiState.movieDetails?.backdropPath)
-            Text(text = uiState.movieDetails?.title ?: "")
-            Text(text = uiState.movieDetails?.overview ?: "")
+            Text(
+                text = uiState.movieDetails?.title ?: "",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = uiState.movieDetails?.overview ?: "",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp),
+                overflow = TextOverflow.Ellipsis,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal
+            )
         }
     }
 }
@@ -95,7 +114,7 @@ fun CoverImage(imageUrl: String) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(8.dp))
-            .height(300.dp),
+            .height(350.dp),
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
