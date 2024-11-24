@@ -1,9 +1,8 @@
 package com.atlyssahil.common.presentation.components
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,14 +13,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,24 +40,26 @@ import com.atlyssahil.R
 fun SearchBar(
     modifier: Modifier = Modifier,
     searchQuery: String,
+    onValueChange: (String) -> Unit,
     onSearch: (String) -> Unit,
     onClear: () -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+    val focusRequester = remember { FocusRequester() }
+    var isFocused by remember { mutableStateOf(false) }
+
+    BackHandler(enabled = isFocused) { focusManager.clearFocus() }
 
     OutlinedTextField(
         modifier = modifier
             .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 8.dp)
-            .border(
-                BorderStroke(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.onPrimary
-                ),
-                shape = RoundedCornerShape(8.dp)
-            )
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .focusRequester(focusRequester)
+            .onFocusChanged { focusState -> isFocused = focusState.isFocused },
         value = searchQuery,
         onValueChange = {
+            onValueChange(it.trim())
             onSearch(it.trim())
         },
         shape = RoundedCornerShape(8.dp),
@@ -84,8 +92,8 @@ fun SearchBar(
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = Color.White,
             unfocusedContainerColor = Color.White,
-            focusedBorderColor = Color.Gray,
-            unfocusedBorderColor = Color.Gray,
+            focusedBorderColor = Color.LightGray,
+            unfocusedBorderColor = Color.LightGray,
             cursorColor = Color.Gray,
             selectionColors = TextSelectionColors(
                 handleColor = Color.Gray,
@@ -107,5 +115,5 @@ fun SearchBar(
 @Composable
 @Preview
 fun SearchPreview() {
-    SearchBar(searchQuery = "", onSearch = {}, onClear = {})
+    SearchBar(searchQuery = "", onValueChange = {}, onSearch = {}, onClear = {})
 }

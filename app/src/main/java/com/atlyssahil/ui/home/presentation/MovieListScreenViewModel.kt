@@ -8,6 +8,7 @@ import com.atlyssahil.ui.home.data.models.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -27,6 +28,8 @@ class MovieListScreenViewModel @Inject constructor(
 
     /* search results cached data */
     private var searchedMovies = mutableListOf<Movie>()
+
+    var searchJob: Job? = null
 
     init {
         getTrendingMovies()
@@ -79,10 +82,18 @@ class MovieListScreenViewModel @Inject constructor(
         }
     }
 
+    fun updateSearchTerm(searchTerm: String) {
+        _uiState.update {
+            it.copy(searchQuery = searchTerm)
+        }
+    }
+
     fun search(query: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        searchJob?.cancel()
+
+        searchJob = viewModelScope.launch(Dispatchers.IO) {
             _uiState.update {
-                it.copy(isLoading = true, searchQuery = query)
+                it.copy(isLoading = true)
             }
 
             if (query.isEmpty()) {

@@ -44,6 +44,9 @@ fun MovieListScreen(
         topBar = {
             SearchBar(
                 searchQuery = uiState.searchQuery,
+                onValueChange = { searchTerm ->
+                    viewModel.updateSearchTerm(searchTerm)
+                },
                 onSearch = { searchQuery ->
                     viewModel.search(searchQuery)
                 },
@@ -58,7 +61,6 @@ fun MovieListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(color = MaterialTheme.colorScheme.primary)
         ) {
             ProgressBar(uiState)
 
