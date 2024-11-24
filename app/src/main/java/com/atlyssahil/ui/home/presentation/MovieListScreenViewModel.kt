@@ -26,10 +26,7 @@ class MovieListScreenViewModel @Inject constructor(
     /* trending movies cached data */
     private var trendingMovies = mutableListOf<Movie>()
 
-    /* search results cached data */
-    private var searchedMovies = mutableListOf<Movie>()
-
-    var searchJob: Job? = null
+    private var searchJob: Job? = null
 
     init {
         getTrendingMovies()

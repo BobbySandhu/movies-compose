@@ -117,23 +117,25 @@ private fun ErrorAndRetryUi(
 
 @Composable
 fun MovieList(uiState: MovieListUiState, onItemClick: (Screens.MovieDetailScreen) -> Unit) {
-    LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize(),
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(8.dp)
-    ) {
-        items(
-            uiState.trendingMovies,
-            key = {
-                it.id
+    AnimatedVisibility(uiState.error.isNullOrEmpty()) {
+        LazyVerticalGrid(
+            modifier = Modifier.fillMaxSize(),
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(8.dp)
+        ) {
+            items(
+                uiState.trendingMovies,
+                key = {
+                    it.id
+                }
+            ) { movie ->
+                CardViewMovie(
+                    imageUrl = Constants.IMAGE_BASE_URL + movie.backdropPath,
+                    id = movie.id,
+                    title = movie.title,
+                    onItemClick = onItemClick
+                )
             }
-        ) { movie ->
-            CardViewMovie(
-                imageUrl = Constants.IMAGE_BASE_URL + movie.backdropPath,
-                id = movie.id,
-                title = movie.title,
-                onItemClick = onItemClick
-            )
         }
     }
 }
