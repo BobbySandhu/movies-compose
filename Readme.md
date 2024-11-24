@@ -9,5 +9,10 @@ This project demonstrates a simple architecture with Jetpack Compose to fetch an
 - Creating custom UI components and managing them
 - Basic Network State and No result cases
 
+**Sample Video:**
+
+https://github.com/user-attachments/assets/208ab767-29da-4a1d-b5bd-29114e326103
+
+
 **Note:**
 *This app requires an api key from IMDB, so please create a file settings.properties and add API_KEY="<your key>" on the root of the project.* 
