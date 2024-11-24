@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -55,19 +56,11 @@ fun CardViewMovie(
                     .fillMaxWidth()
                     .height(170.dp)
                     .shadow(elevation = 4.dp, shape = MaterialTheme.shapes.small)
-                /*modifier = modifier
-                    .sharedElement(
-                        state = rememberSharedContentState(
-                            key = sharedTransitionKey
-                        ),
-                        animatedVisibilityScope = animatedVisibilityScope,
-                    )
-                    .fillMaxSize()
-                    .clip(shape = MaterialTheme.shapes.medium)*/
             )
             Text(
                 text = title,
                 fontSize = 16.sp,
+                color = Color.Black,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
